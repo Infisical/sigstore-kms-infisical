@@ -7,11 +7,11 @@ Supports [cosign](https://github.com/sigstore/cosign) image and artifact signing
 | Capability | Compatibility |
 | ---------- | ------------- |
 | DefaultAlgorithm | RSA_4096 |
-| SupportedAlgorithsm | RSA_4096, ECC_NIST_P256 |
+| SupportedAlgorithm | RSA_4096, ECC_NIST_P256 |
 | CreateKey | :x: |
 | PublicKey | :heavy_check_mark: |
 | SignMessage | :heavy_check_mark: |
-| VerfiyMessage | :heavy_check_mark: |
+| VerifyMessage | :heavy_check_mark: |
 | CryptoSigner | :x: |
 
 ### Installation
