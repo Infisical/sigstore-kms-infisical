@@ -53,6 +53,7 @@ cosign verify --key "infisical://{KMS_KEY_NAME}" --insecure-ignore-tlog=true my-
 ```
 
 ### Creating a new keypair
+
 ```sh
 cosign generate-key-pair --kms infisical://{NEW_KEY_TO_BE_CREATED}
 ```
