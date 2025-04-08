@@ -51,3 +51,10 @@ cosign sign --key "infisical://{KMS_KEY_NAME}" --tlog-upload=false my-repo/image
 ```sh
 cosign verify --key "infisical://{KMS_KEY_NAME}" --insecure-ignore-tlog=true my-repo/image:v1
 ```
+
+### Creating a new keypair
+```sh
+cosign generate-key-pair --kms infisical://{NEW_KEY_TO_BE_CREATED}
+```
+
+The above will create an RSA 4096 KMS key with name `NEW_KEY_TO_BE_CREATED`, which you can then subsequently use to sign and verify with.
