@@ -4,45 +4,37 @@ import (
 	"fmt"
 	"os"
 
-	infisical "github.com/infisical/sigstore-kms-infisical/internal"
-	"github.com/sigstore/sigstore/pkg/signature/kms"
-	"github.com/sigstore/sigstore/pkg/signature/kms/cliplugin/common"
 	"github.com/sigstore/sigstore/pkg/signature/kms/cliplugin/handler"
 )
 
-const expectedProtocolVersion = common.ProtocolVersion
-
-func newSignerVerifier(initOptions *common.InitOptions) (kms.SignerVerifier, error) {
-	fullKeyResourceID := infisical.ReferenceScheme + initOptions.KeyResourceID
-	return infisical.LoadSignerVerifier(fullKeyResourceID)
-}
+// See cliplugin.common.ProtocolVersion
+const expectedProtocolVersion = "v1"
 
 func main() {
+	// we log to stderr, not stdout. stdout is reserved for the plugin return value.
+	// spew.Fdump(os.Stderr, os.Args) // Useful for debugging
 	if protocolVersion := os.Args[1]; protocolVersion != expectedProtocolVersion {
 		err := fmt.Errorf("expected protocol version: %s, got %s", expectedProtocolVersion, protocolVersion)
-		_ = handler.WriteErrorResponse(os.Stdout, err)
-		panicWithErr(err)
+		handler.WriteErrorResponse(os.Stdout, err)
+		panic(err)
 	}
 
 	pluginArgs, err := handler.GetPluginArgs(os.Args)
 	if err != nil {
-		_ = handler.WriteErrorResponse(os.Stdout, err)
-		panicWithErr(err)
+		handler.WriteErrorResponse(os.Stdout, err)
+		panic(err)
 	}
+	// spew.Fdump(os.Stderr, pluginArgs) // Useful for debugging
 
-	signerVerifier, err := newSignerVerifier(pluginArgs.InitOptions)
-	if err != nil {
-		_ = handler.WriteErrorResponse(os.Stdout, err)
-		panicWithErr(err)
+	signerVerifier := &InfisicalSignerVerifier{
+		hashFunc:      pluginArgs.InitOptions.HashFunc,
+		keyResourceID: pluginArgs.InitOptions.KeyResourceID,
 	}
 
 	_, err = handler.Dispatch(os.Stdout, os.Stdin, pluginArgs, signerVerifier)
 	if err != nil {
 		// Dispatch() will have already called WriteResponse() with the error.
-		panicWithErr(err)
+		panic(err)
 	}
-}
-
-func panicWithErr(err error) {
-	panic(fmt.Errorf("%+v", err))
+	// spew.Fdump(os.Stderr, resp) // Useful for debugging
 }
