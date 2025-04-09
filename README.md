@@ -8,7 +8,7 @@ Supports [cosign](https://github.com/sigstore/cosign) image and artifact signing
 | ---------- | ------------- |
 | DefaultAlgorithm | RSA_4096 |
 | SupportedAlgorithm | RSA_4096, ECC_NIST_P256 |
-| CreateKey | :x: |
+| CreateKey | :heavy_check_mark: |
 | PublicKey | :heavy_check_mark: |
 | SignMessage | :heavy_check_mark: |
 | VerifyMessage | :heavy_check_mark: |
