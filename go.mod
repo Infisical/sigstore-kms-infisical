@@ -1,14 +1,12 @@
 module github.com/infisical/sigstore-kms-infisical
 
-replace github.com/infisical/go-sdk => ../go-sdk
-
 go 1.23.3
 
 toolchain go1.23.8
 
 require (
 	github.com/davecgh/go-spew v1.1.1
-	github.com/infisical/go-sdk v0.5.3
+	github.com/infisical/go-sdk v0.5.9
 	github.com/sigstore/sigstore v1.9.1
 )
 
