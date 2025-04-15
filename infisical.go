@@ -167,7 +167,7 @@ func (i InfisicalSignerVerifier) SignMessage(message io.Reader, opts ...signatur
 		KeyId:            kmsKey.KeyId,
 		Data:             base64.StdEncoding.Strict().EncodeToString(digest),
 		SigningAlgorithm: signingAlgorithm,
-		IsDigest:         i.hashFunc != crypto.Hash(0),
+		IsPreDigested:    i.hashFunc != crypto.Hash(0),
 	})
 
 	if err != nil {
